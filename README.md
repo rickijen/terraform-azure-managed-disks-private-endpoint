@@ -1,6 +1,8 @@
 # Deploying Azure Managed Disks with Private Endpoint using Terraform
 [![Terraform](https://img.shields.io/badge/terraform-v1.3+-blue.svg)](https://www.terraform.io/downloads.html)
 
+Blog --> https://gmusumeci.medium.com/using-private-endpoint-in-azure-manage-disks-with-terraform-9f0a443506e9
+
 Deploy an Ubuntu Virtual Machine with Azure Managed Disk with Private Endpoint in Azure using Terraform
 
 This code will:
