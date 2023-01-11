@@ -1,2 +1,18 @@
-# terraform-azure-managed-disks-private-endpoint
-Deploying Azure Managed Disks with Private Endpoint using Terraform
+# Deploying Azure Managed Disks with Private Endpoint using Terraform
+[![Terraform](https://img.shields.io/badge/terraform-v1.3+-blue.svg)](https://www.terraform.io/downloads.html)
+
+Deploy an Ubuntu Virtual Machine with Azure Managed Disk with Private Endpoint in Azure using Terraform
+
+This code will:
+
+- Resource Group Creation
+- VNET Creation
+- Subnets Creation
+- Create a Linux VM
+- Create a Private DNS zone
+- Create Virtual Network Links
+- Creation of the Disk Access Resource
+- Creation of Manage Disk and Attach to the VM
+- Creation of the Managed Disk Endpoint
+- Creation of DNS A Record
+- Configure the network access to the Azure Managed Disk
