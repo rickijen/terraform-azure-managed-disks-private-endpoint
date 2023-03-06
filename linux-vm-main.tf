@@ -103,34 +103,42 @@ resource "azurerm_network_interface" "linux-vm-nic" {
 }
 
 # Create Linux VM with linux server
-resource "azurerm_linux_virtual_machine" "linux-vm" {
-  depends_on=[azurerm_network_interface.linux-vm-nic]
+resource "azurerm_virtual_machine" "linux-vm" {
+  depends_on=[azurerm_network_interface.linux-vm-nic, azurerm_managed_disk.disk_os]
 
   location              = azurerm_resource_group.network-rg.location
   resource_group_name   = azurerm_resource_group.network-rg.name
   name                  = "linux-${random_string.linux-vm-name.result}-vm"
   network_interface_ids = [azurerm_network_interface.linux-vm-nic.id]
-  size                  = var.linux_vm_size
-
-  source_image_reference {
+  vm_size               = var.linux_vm_size
+  delete_os_disk_on_termination    = false
+  delete_data_disks_on_termination = false
+  /*
+  storage_image_reference {
     offer     = var.linux_vm_image_offer
     publisher = var.linux_vm_image_publisher
     sku       = var.ubuntu_1804_sku
     version   = "latest"
   }
-
-  os_disk {
-    name                 = "linux-${random_string.linux-vm-name.result}-disk"
-    caching              = "ReadWrite"
-    storage_account_type = "Standard_LRS"
+  */
+  storage_os_disk {
+    name              = local.os_disk_name
+    create_option     = "Attach"
+    managed_disk_id   = "${azurerm_managed_disk.disk_os.id}"
+    os_type           = "Linux"
   }
 
-  computer_name  = "linux-${random_string.linux-vm-name.result}-vm"
-  admin_username = var.linux_admin_username
-  admin_password = random_password.linux-vm-password.result
-  custom_data    = base64encode(data.template_file.linux-vm-cloud-init.rendered)
-
-  disable_password_authentication = false
+  /*
+  os_profile {
+    computer_name  = "linux-${random_string.linux-vm-name.result}-vm"
+    admin_username = var.linux_admin_username
+    admin_password = random_password.linux-vm-password.result
+    custom_data    = base64encode(data.template_file.linux-vm-cloud-init.rendered)
+  }
+  */
+  os_profile_linux_config {
+    disable_password_authentication = false
+  }
 
   tags = {
     environment = var.environment

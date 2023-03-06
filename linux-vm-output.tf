@@ -4,7 +4,7 @@
 
 output "linux_vm_name" {
   description = "Virtual Machine name"
-  value       = azurerm_linux_virtual_machine.linux-vm.name
+  value       = azurerm_virtual_machine.linux-vm.name
 }
 
 output "linux_vm_ip_address" {
