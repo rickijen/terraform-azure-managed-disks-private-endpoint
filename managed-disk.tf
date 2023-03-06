@@ -71,13 +71,13 @@ resource "azurerm_virtual_machine_data_disk_attachment" "disk1" {
 
 # Create Private Endpint
 resource "azurerm_private_endpoint" "endpoint" {
-  name                = "${local.disk_name}-pe"
+  name                = "disks-pe"
   resource_group_name = azurerm_resource_group.network-rg.name
   location            = azurerm_resource_group.network-rg.location
   subnet_id           = azurerm_subnet.endpoint-subnet.id
 
   private_service_connection {
-    name                           = "${local.disk_name}-psc"
+    name                           = "disks-psc"
     private_connection_resource_id = azurerm_disk_access.disk_access.id
     is_manual_connection           = false
     subresource_names              = ["disks"]
@@ -86,7 +86,7 @@ resource "azurerm_private_endpoint" "endpoint" {
 
 # Create DNS A Record
 resource "azurerm_private_dns_a_record" "dns_a" {
-  name                = "${local.disk_name}-dns"
+  name                = "disks-dns"
   zone_name           = azurerm_private_dns_zone.dns-zone.name
   resource_group_name = azurerm_resource_group.network-rg.name
   ttl                 = 300
